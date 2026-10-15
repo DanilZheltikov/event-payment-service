@@ -30,7 +30,11 @@ async def handle_payment(
             payment_id=payment_id
         )
 
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(
+        timeout=10.0,
+        follow_redirects=False,
+        trust_env=False,
+    ) as client:
         await processing_service.send_webhook_notification(
             client=client,
             payment_result=payment_result
