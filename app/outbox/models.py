@@ -1,14 +1,7 @@
 from datetime import datetime
 from typing import Any
 
-from sqlalchemy import (
-    CheckConstraint,
-    DateTime,
-    Index,
-    SmallInteger,
-    String,
-    text
-)
+from sqlalchemy import CheckConstraint, DateTime, Index, String, text
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -30,12 +23,6 @@ class Outbox(UUIDMixin, TimestampMixin, Base):
         nullable=True
     )
     routing_key: Mapped[str] = mapped_column(String(128), nullable=False)
-    attempts: Mapped[int] = mapped_column(
-        SmallInteger,
-        default=0,
-        server_default=text("0"),
-        nullable=False
-    )
 
     __table_args__ = (
         Index(
